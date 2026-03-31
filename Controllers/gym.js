@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 exports.register = async (req, res) => {
     try {
@@ -33,11 +34,16 @@ exports.register = async (req, res) => {
         })
     }
 }
-
+// process.env.VITE_FRONTEND_URL
+// const cookieOptions = {
+//     httpOnly: true,
+//     secure: false, // Set to true in production
+//     sameSite: 'Lax'
+// }
 const cookieOptions = {
     httpOnly: true,
-    secure: false, // Set to true in production
-    sameSite: 'Lax'
+    secure: process.env.secure||false, // Set to true in production
+    sameSite: process.env.sameSite||'Lax'
 }
 
 exports.login = async (req, res) => {
@@ -55,6 +61,7 @@ exports.login = async (req, res) => {
             if (isPasswordValid) {
                 const token = jwt.sign({ gym_id: gym._id }, process.env.JWT_SecretKey);
                 res.cookie("cookie_token", token, cookieOptions);
+                
 
                 res.json({ message: 'Logged in successfully', success: "true", gym, token });
             } else {
