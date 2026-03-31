@@ -5,7 +5,7 @@ const cors = require('cors');
 
 require('dotenv').config();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT||4000;
 
 // app.use(cors({
 //     origin: 'http://localhost:5173', //Your React app's URL
